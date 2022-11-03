@@ -30,7 +30,7 @@ public abstract class BaseMvvmActivity<VB extends ViewDataBinding,VM extends Bas
         mBinding = DataBindingUtil.inflate(getLayoutInflater(), getLayoutRes(), null, false);
         mBinding.getRoot().setFitsSystemWindows(true);
         setContentView(mBinding.getRoot());
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//竖屏
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//竖屏
         Bundle extras = getIntent().getExtras();
         if (extras!=null){
              getBundleExtras(extras);

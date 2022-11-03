@@ -634,12 +634,44 @@
     <dimen name="dp_640">640dp</dimen>
 
 
-    <dimen name="dp_720">720dp</dimen>
+    <dimen name="dp_641">641dp</dimen>
+    <dimen name="dp_642">642dp</dimen>
+    <dimen name="dp_643">643dp</dimen>
+    <dimen name="dp_644">644dp</dimen>
+    <dimen name="dp_645">645dp</dimen>
+    <dimen name="dp_646">646dp</dimen>
+    <dimen name="dp_647">647dp</dimen>
+    <dimen name="dp_648">648dp</dimen>
+    <dimen name="dp_649">649dp</dimen>
+    <dimen name="dp_650">650dp</dimen>
+
+    <dimen name="dp_651">651dp</dimen>
+    <dimen name="dp_652">652dp</dimen>
+    <dimen name="dp_653">653dp</dimen>
+    <dimen name="dp_654">654dp</dimen>
+    <dimen name="dp_655">655dp</dimen>
+    <dimen name="dp_656">656dp</dimen>
+    <dimen name="dp_657">657dp</dimen>
+    <dimen name="dp_658">658dp</dimen>
+    <dimen name="dp_659">659dp</dimen>
+    <dimen name="dp_660">660dp</dimen>
 
 
-
+    <dimen name="dp_661">661dp</dimen>
+    <dimen name="dp_662">662dp</dimen>
+    <dimen name="dp_663">663dp</dimen>
+    <dimen name="dp_664">664dp</dimen>
+    <dimen name="dp_665">665dp</dimen>
+    <dimen name="dp_666">666dp</dimen>
+    <dimen name="dp_667">667dp</dimen>
+    <dimen name="dp_668">668dp</dimen>
+    <dimen name="dp_669">669dp</dimen>
+    <dimen name="dp_670">670dp</dimen>
 
     <!-- font size,you can add if there is no one -->
+    <dimen name="sp_3">3sp</dimen>
+    <dimen name="sp_4">4sp</dimen>
+    <dimen name="sp_5">5sp</dimen>
     <dimen name="sp_6">6sp</dimen>
     <dimen name="sp_7">7sp</dimen>
     <dimen name="sp_8">8sp</dimen>
