@@ -38,7 +38,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.example.mvvmbase'
                 artifactId = 'mvvmbase'
-                version = '1.0.2'
+                version = '1.0.7'
             }
         }
     }
@@ -55,5 +55,4 @@ dependencies {
     api("androidx.navigation:navigation-fragment:2.5.3")
     api("androidx.navigation:navigation-ui:2.5.3")
     api 'com.github.awoyixiasiquanjia:NetWork:1.+'
-    implementation 'com.github.JessYanCoding:AndroidAutoSize:v1.2.1'
 }
