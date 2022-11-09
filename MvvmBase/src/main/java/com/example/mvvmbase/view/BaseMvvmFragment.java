@@ -13,6 +13,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.example.mvvmbase.R;
+import com.example.mvvmbase.view.dialog.CustomDialog;
 import com.example.mvvmbase.view.utils.InstanceUtil;
 
 
@@ -26,11 +29,17 @@ public abstract class BaseMvvmFragment <VB extends ViewDataBinding,VM extends Ba
 
     protected VB mBinding;
     protected VM mViewModel;
-
+    private CustomDialog loadDialog;
+    private LottieAnimationView lvLoading;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mBinding = DataBindingUtil.inflate(inflater, getLayoutRes(), container, false);
+        if (mBinding==null){
+            mBinding = DataBindingUtil.inflate(inflater, getLayoutRes(), container, false);
+            initView();
+            initViewModel();
+            initData();
+        }
         return mBinding.getRoot();
     }
 
@@ -42,31 +51,9 @@ public abstract class BaseMvvmFragment <VB extends ViewDataBinding,VM extends Ba
         }
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        initView();
-        initViewModel();
-        initData();
-    }
 
     @Override
-    public void onNetComplete() {
-
-    }
-
-    @Override
-    public void onNetError() {
-
-    }
-
-    @Override
-    public void onNoData() {
-
-    }
-
-    @Override
-    public void onLoading() {
+    public void onNoData(String tips) {
 
     }
 
@@ -75,11 +62,36 @@ public abstract class BaseMvvmFragment <VB extends ViewDataBinding,VM extends Ba
 
     }
 
+
     @Override
-    public void endLoadMore() {
+    public void showLoadingDialog() {
+        try {
+            if (loadDialog == null) {
+                loadDialog = new CustomDialog.Builder(getContext()).view(R.layout.dialog_loading).style(R.style.no_shade_dialog).build();
+                lvLoading = (LottieAnimationView) loadDialog.getView(R.id.lav_loading);
+                loadDialog.show();
+                if (lvLoading != null) {
+                    lvLoading.playAnimation();
+                }
+            }
+        } catch (Exception ex) {
+
+        }
 
     }
 
+    @Override
+    public void dismissLoadingDialog() {
+        if (loadDialog != null && this != null) {
+            try {
+                lvLoading.cancelAnimation();
+                loadDialog.dismiss();
+                loadDialog = null;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     @Override
     public void initViewModel() {
@@ -94,24 +106,28 @@ public abstract class BaseMvvmFragment <VB extends ViewDataBinding,VM extends Ba
         if (mViewModel==null){
             return;
         }
-        mViewModel.getUiChangeLiveData().getShowErrorEvent().observe(this, new Observer<String>() {
+        mViewModel.getUiChangeLiveData().getShowErrorEvent().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String s) {
                 onShowError(s);
             }
         });
 
-        mViewModel.getUiChangeLiveData().getShowPageEvent().observe(this, new Observer<PageStatus>() {
+        mViewModel.getUiChangeLiveData().getShowLoading().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
-            public void onChanged(PageStatus pageStatus) {
-                switch (pageStatus){
-                    case EMPTYSTATUS:
-                        onNoData();
-                    case NONETSTATUS:
-                        onNetError();
-                    case CONTENTSTATUS:
-
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean){
+                    showLoadingDialog();
+                }else{
+                    dismissLoadingDialog();
                 }
+            }
+        });
+
+        mViewModel.getUiChangeLiveData().getShowEmpty().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                       onNoData(s);
             }
         });
 

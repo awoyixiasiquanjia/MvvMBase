@@ -4,14 +4,12 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 
 public class BaseViewModel extends AndroidViewModel  {
     private UIChangeLiveData uiChangeLiveData;
     public BaseViewModel(@NonNull Application application) {
         super(application);
-
     }
 
     /**
@@ -28,35 +26,47 @@ public class BaseViewModel extends AndroidViewModel  {
 
         private MutableLiveData<String> showErrorEvent;   //错误信息
 
-        private MutableLiveData<PageStatus> showPageEvent;//展示页面信息
+        private MutableLiveData<String> showEmpty;//展示空页面
+
+        private MutableLiveData<Boolean> showLoading;//loading页面
 
         public MutableLiveData<String> getShowErrorEvent() {
             return showErrorEvent = createLiveData(showErrorEvent);
         }
 
-        public MutableLiveData<PageStatus> getShowPageEvent(){
-            return showPageEvent = createLiveData(showPageEvent);
+        public MutableLiveData<Boolean> getShowLoading(){
+            return showLoading = createLiveData(showLoading);
         }
+
+        public MutableLiveData<String> getShowEmpty(){
+            return showEmpty = createLiveData(showEmpty);
+        }
+
 
         private <T> MutableLiveData<T> createLiveData(MutableLiveData<T> liveData) {
                if (liveData == null){
-                      liveData = new MutableLiveData<>();
+                      liveData = new MutableLiveData();
                }
                return liveData;
         }
     }
 
-    public void postShowErrorEvent(String errorMsg){
-               if (uiChangeLiveData!=null){
-                   uiChangeLiveData.getShowErrorEvent().postValue(errorMsg);
-               }
-    }
-
-    public void postShowPageEvent(PageStatus pageStatus){
+    public void postErrorEvent(String errorEvent){
              if (uiChangeLiveData!=null){
-                 uiChangeLiveData.getShowPageEvent().postValue(pageStatus);
+                 uiChangeLiveData.getShowErrorEvent().postValue(errorEvent);
              }
     }
 
+    public void postshowEmpty(String emptyString){
+        if (uiChangeLiveData!=null){
+            uiChangeLiveData.getShowEmpty().postValue(emptyString);
+        }
+    }
+
+    public void postshowLoading(Boolean showLoading){
+        if (uiChangeLiveData!=null){
+            uiChangeLiveData.getShowLoading().postValue(showLoading);
+        }
+    }
 
 }

@@ -2,14 +2,18 @@ package com.example.mvvmbase.view;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 
-import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.airbnb.lottie.LottieAnimationView;
+import com.example.mvvmbase.R;
+import com.example.mvvmbase.view.dialog.CustomDialog;
 import com.example.mvvmbase.view.utils.InstanceUtil;
+
 /**
  * @author sujinbiao
  * @date 2022/10/26
@@ -20,7 +24,8 @@ public abstract class BaseMvvmActivity<VB extends ViewDataBinding,VM extends Bas
 
     protected VB mBinding;
     protected VM mViewModel;
-
+    private CustomDialog loadDialog;
+    private LottieAnimationView lvLoading;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,13 +43,6 @@ public abstract class BaseMvvmActivity<VB extends ViewDataBinding,VM extends Bas
        initView();
        initViewModel();
        initData();
-    }
-
-
-
-    @Override
-    public void onNetComplete() {
-
     }
 
     /**
@@ -70,49 +68,62 @@ public abstract class BaseMvvmActivity<VB extends ViewDataBinding,VM extends Bas
             }
         });
 
-       mViewModel.getUiChangeLiveData().getShowPageEvent().observe(this, new Observer<PageStatus>() {
-           @Override
-           public void onChanged(PageStatus pageStatus) {
-               switch (pageStatus){
-                   case EMPTYSTATUS:
-                       onNoData();
-                   case NONETSTATUS:
-                       onNetError();
-                   case CONTENTSTATUS:
+        mViewModel.getUiChangeLiveData().getShowLoading().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                 if (aBoolean){
+                     showLoadingDialog();
+                 }else{
+                     dismissLoadingDialog();
+                 }
+            }
+        });
 
-               }
-           }
-       });
+        mViewModel.getUiChangeLiveData().getShowEmpty().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                    onNoData(s);
+            }
+        });
 
     }
-
 
     @Override
-    public void onNetError() {
-    }
-
-
-    @Override
-    public void onNoData() {
+    public void onNoData(String tips) {
 
     }
-
-
-    @Override
-    public void onLoading() {
-    }
-
 
     @Override
     public void onShowError(String errorMsg) {
     }
 
-
     @Override
-    public void endLoadMore() {
+    public void showLoadingDialog() {
+        try {
+            if (loadDialog == null) {
+                loadDialog = new CustomDialog.Builder(this).view(R.layout.dialog_loading).style(R.style.no_shade_dialog).build();
+                lvLoading = (LottieAnimationView) loadDialog.getView(R.id.lav_loading);
+                loadDialog.show();
+                if (lvLoading != null) {
+                    lvLoading.playAnimation();
+                }
+            }
+        } catch (Exception ex) {
+
+        }
 
     }
 
-
-
+    @Override
+    public void dismissLoadingDialog() {
+        if (loadDialog != null && this != null) {
+            try {
+                lvLoading.cancelAnimation();
+                loadDialog.dismiss();
+                loadDialog = null;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

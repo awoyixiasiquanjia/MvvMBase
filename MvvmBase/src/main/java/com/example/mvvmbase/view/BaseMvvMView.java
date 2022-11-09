@@ -7,24 +7,9 @@ import androidx.annotation.LayoutRes;
 public interface BaseMvvMView {
 
     /**
-     * 网络请求结束
-     */
-    void onNetComplete();
-
-    /**
-     * 网络故障
-     */
-    void onNetError();
-
-    /**
      * 无数据
      */
-    void onNoData();
-
-    /**
-     * 加载中
-     */
-    void onLoading();
+    void onNoData(String tips);
 
     /**
      *展示错误页面
@@ -32,14 +17,18 @@ public interface BaseMvvMView {
     void onShowError(String errorMsg);
 
     /**
-     *加载更多结束
+     *展示loading
      */
-    void endLoadMore();
+    void showLoadingDialog();
+
+    /**
+     *关闭loading
+     */
+    void dismissLoadingDialog();
+
 
     @LayoutRes
     int getLayoutRes();
-
-
 
     /**
      * 初始化布局
