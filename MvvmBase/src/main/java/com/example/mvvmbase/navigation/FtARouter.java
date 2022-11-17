@@ -25,7 +25,6 @@ public class FtARouter {
             return instance;
     }
 
-
     public Postcard.Build build(View mView) {
            return Postcard.build(mView);
     }

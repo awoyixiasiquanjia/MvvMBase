@@ -20,7 +20,7 @@ public class Postcard {
      private int enterAnim = R.anim.from_right_in;//默认切换动画
      private int exitAnim = R.anim.to_left_out;
      private View mView;
-    NavController navController;
+
     public static Build build(View mView){
         return new Build(mView);
     }
@@ -67,10 +67,35 @@ public class Postcard {
             postcard.navigation();
         }
 
+        public void popBackStack(){
+            Postcard postcard = new Postcard();
+            postcard.mView = this.mView;
+            if (this.enterAnim!=-1){
+                postcard.enterAnim = this.enterAnim;
+            }
+            if (this.exitAnim!=-1){
+                postcard.exitAnim = this.exitAnim;
+            }
+            popBackStack();
+        }
+
+
+        public void popBackStack(@IdRes int destinationId,Boolean inclusive ){
+            Postcard postcard = new Postcard();
+            postcard.mView = this.mView;
+            if (this.enterAnim!=-1){
+                postcard.enterAnim = this.enterAnim;
+            }
+            if (this.exitAnim!=-1){
+                postcard.exitAnim = this.exitAnim;
+            }
+            popBackStack(destinationId,inclusive);
+        }
     }
 
 
      public void navigation(){
+         NavController navController;
          navController = Navigation.findNavController(mView);
          NavOptions navOptions = new NavOptions.Builder().setEnterAnim(enterAnim).setExitAnim(exitAnim).build();
          navController.navigate(pathID,mBundle,navOptions);
@@ -78,15 +103,15 @@ public class Postcard {
 
 
      public void popBackStack(){
-        if (navController!=null){
-            navController.popBackStack();
-        }
+         NavController navController;
+         navController = Navigation.findNavController(mView);
+         navController.popBackStack();
      }
 
     public void popBackStack(@IdRes int destinationId,Boolean inclusive ){
-        if (navController!=null){
+        NavController navController;
+        navController = Navigation.findNavController(mView);
             navController.popBackStack(destinationId,inclusive);
-        }
     }
 
 }
