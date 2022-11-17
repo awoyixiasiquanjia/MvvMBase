@@ -76,7 +76,7 @@ public class Postcard {
             if (this.exitAnim!=-1){
                 postcard.exitAnim = this.exitAnim;
             }
-            popBackStack();
+            postcard.popBackStack();
         }
 
 
@@ -89,7 +89,7 @@ public class Postcard {
             if (this.exitAnim!=-1){
                 postcard.exitAnim = this.exitAnim;
             }
-            popBackStack(destinationId,inclusive);
+            postcard.popBackStack(destinationId,inclusive);
         }
     }
 
