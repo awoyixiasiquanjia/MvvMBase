@@ -19,9 +19,8 @@ public class Postcard {
      private Bundle mBundle;
      private int enterAnim = R.anim.from_right_in;//默认切换动画
      private int exitAnim = R.anim.to_left_out;
-     private Activity activity;
      private View mView;
-
+    NavController navController;
     public static Build build(View mView){
         return new Build(mView);
     }
@@ -31,7 +30,6 @@ public class Postcard {
           private Bundle mBundle;
           private int enterAnim = -1;
           private int exitAnim = -1;
-          private Activity activity;
           private View mView;
           public Build PathID(@IdRes int pathID){
               this.pathID =pathID;
@@ -73,12 +71,22 @@ public class Postcard {
 
 
      public void navigation(){
-         NavController navController;
-             navController = Navigation.findNavController(mView);
+         navController = Navigation.findNavController(mView);
          NavOptions navOptions = new NavOptions.Builder().setEnterAnim(enterAnim).setExitAnim(exitAnim).build();
          navController.navigate(pathID,mBundle,navOptions);
      }
 
 
+     public void popBackStack(){
+        if (navController!=null){
+            navController.popBackStack();
+        }
+     }
+
+    public void popBackStack(@IdRes int destinationId,Boolean inclusive ){
+        if (navController!=null){
+            navController.popBackStack(destinationId,inclusive);
+        }
+    }
 
 }
