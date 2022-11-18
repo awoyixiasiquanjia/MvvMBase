@@ -1,5 +1,7 @@
 package com.example.mvvmbase.view;
 
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -132,5 +134,6 @@ public abstract class BaseMvvmFragment <VB extends ViewDataBinding,VM extends Ba
         });
 
     }
+
 
 }

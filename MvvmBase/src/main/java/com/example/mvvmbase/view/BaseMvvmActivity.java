@@ -1,5 +1,7 @@
 package com.example.mvvmbase.view;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -125,5 +127,15 @@ public abstract class BaseMvvmActivity<VB extends ViewDataBinding,VM extends Bas
                 e.printStackTrace();
             }
         }
+    }
+
+
+    @Override
+    public Resources getResources() {
+        Resources res = super.getResources();
+        Configuration config = new Configuration();
+        config.setToDefaults();
+        res.updateConfiguration(config, res.getDisplayMetrics());
+        return res;
     }
 }
